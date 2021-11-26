@@ -8,15 +8,11 @@ contract ImageStorage {
         string title;
         uint256 createdAt;
     }
-    struct Voter {
-        uint vote;
-    }
 
     address owner;
 
     bytes32[] internal imageIds;
     mapping(bytes32 => ImageMetadata) public images;
-    mapping(address => Voter) public voters;
 
     constructor() {
         owner = msg.sender;
@@ -48,14 +44,6 @@ contract ImageStorage {
             }
         }
     }
-
-    // function setVote(bytes32 id) public returns (uint256 vote_) {
-    //     Voter memory voter = voters[msg.sender];
-    //     require(voter.vote < 3 , "You have only 3 votes total!");
-
-    //     voter.vote += 1;
-    //     return voter.vote;
-    // }
 
     function set(
         bytes32 id,
