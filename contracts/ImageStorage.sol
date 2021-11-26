@@ -18,33 +18,6 @@ contract ImageStorage {
         owner = msg.sender;
     }
 
-    function getImageHash(bytes32 id) public view returns (string memory) {
-        return images[id].imagehash;
-    }
-
-    function getImages() public view returns(ImageMetadata [] memory) {
-        ImageMetadata[] memory result = new ImageMetadata[](imageIds.length);
-        for (uint p = 0; p < imageIds.length; p++) {
-            bytes32 id = imageIds[p];
-            result[p] = images[id];
-        }
-        return result;
-    }
-
-    function removeImage(bytes32 id) public {
-        require(
-            msg.sender == owner,
-            "You are not allowed to remove image, only owner of smart contract can remove images."
-        );
-
-        for (uint p = 0; p < imageIds.length; p++) {
-            if (imageIds[p] == id) {
-                imageIds[p] = imageIds[imageIds.length-1];
-                imageIds.pop();
-            }
-        }
-    }
-
     function set(
         bytes32 id,
         string memory imagehash,
@@ -59,5 +32,28 @@ contract ImageStorage {
 
         imageIds.push(id);
         images[id] = imageMetadata;
+    }
+
+    function get() public view returns(ImageMetadata [] memory) {
+        ImageMetadata[] memory result = new ImageMetadata[](imageIds.length);
+        for (uint p = 0; p < imageIds.length; p++) {
+            bytes32 id = imageIds[p];
+            result[p] = images[id];
+        }
+        return result;
+    }
+
+    function burn(bytes32 id) public {
+        require(
+            msg.sender == owner,
+            "You are not allowed to remove image, only owner of smart contract can remove images."
+        );
+
+        for (uint p = 0; p < imageIds.length; p++) {
+            if (imageIds[p] == id) {
+                imageIds[p] = imageIds[imageIds.length-1];
+                imageIds.pop();
+            }
+        }
     }
 }
