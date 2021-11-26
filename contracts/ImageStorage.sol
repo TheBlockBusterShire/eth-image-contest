@@ -6,11 +6,8 @@ contract ImageStorage {
         bytes32 id;
         string imagehash;
         string title;
-        string description;
-        uint256 vote;
-        uint256 time;
+        uint256 createdAt;
     }
-
     struct Voter {
         uint vote;
     }
@@ -52,29 +49,23 @@ contract ImageStorage {
         }
     }
 
-    function setVote(bytes32 id) public returns (uint256 vote_) {
-        Voter memory voter = voters[msg.sender];
-        require(voter.vote < 3 , "You have only 3 votes total!");
+    // function setVote(bytes32 id) public returns (uint256 vote_) {
+    //     Voter memory voter = voters[msg.sender];
+    //     require(voter.vote < 3 , "You have only 3 votes total!");
 
-        voter.vote += 1;
-        images[id].vote += 1;
+    //     voter.vote += 1;
+    //     return voter.vote;
+    // }
 
-        return voter.vote;
-    }
-
-    function setImage(
+    function set(
         bytes32 id,
         string memory imagehash,
-        string memory title,
-        string memory description,
-        uint256 vote
+        string memory title
     ) public {
         ImageMetadata memory imageMetadata = ImageMetadata(
             id,
             imagehash,
             title,
-            description,
-            vote,
             block.timestamp
         );
 
