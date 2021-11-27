@@ -1,0 +1,15 @@
+{
+  "name": "eth-image-contest",
+  "version": "0.1.0",
+  "scripts": {
+    "test": "truffle test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheBlockBusterShire/eth-image-contest.git"
+  },
+  "homepage": "https://github.com/TheBlockBusterShire/eth-image-contest#readme",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.4.0"
+  }
+}
