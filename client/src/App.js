@@ -1,45 +1,25 @@
 import React, { Component } from "react";
-import getWeb3 from "./utils/getWeb3";
-import { deployImageStorageContract } from "./utils/contractResolver"
+import ImageStorage from './contracts/ImageStorage'
 
 import "./App.css";
 
 class App extends Component {
-  state = { storageValue: null, web3: null, accounts: null, contract: null }
+  state = { storageValue: null, imageStorage: null }
 
   componentDidMount = async () => {
-    try {
-      const web3 = await getWeb3()
-      const accounts = await web3.eth.getAccounts()
-      const imageStorageContract = await deployImageStorageContract(web3)
-      this.setState({ web3, accounts, contract: imageStorageContract }, this.runExample)
-    } catch (error) {
-      alert(`Failed to load web3, accounts, or contract. Check console for details.`,)
-      console.error(error)
-    }
-  };
+    const imageStorage = new ImageStorage()
+    await imageStorage.init()
 
-  runExample = async () => {
-    const { web3, accounts, contract } = this.state;
-
-    const response = await contract.methods.get().call();
-
-    console.log(response)
-    this.setState({ storageValue: response });
-  };
-
-  addImage = async () => {
-    await contract.methods.set(
-      web3.utils.fromAscii("one"),
-      "hash",
-      "title"
-    ).send({ from: accounts[0] });
+    this.setState({ imageStorage }, this.loadImages)
   }
 
+  loadImages = async () => {
+    const { imageStorage } = this.state;
+
+    this.setState({ storageValue: await imageStorage.getAll() });
+  };
+
   render() {
-    if (!this.state.web3) {
-      return <div>Loading Web3, accounts, and contract...</div>;
-    }
     return (
       <div className="App">
         <h1>Good to Go!</h1>

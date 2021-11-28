@@ -1,4 +1,4 @@
-import ImageStorageContract from "../contracts/ImageStorage.json";
+import ImageStorageContract from "./ImageStorage.json";
 
 export const deployImageStorageContract = async (web3) => deployContract(web3, ImageStorageContract)
 
