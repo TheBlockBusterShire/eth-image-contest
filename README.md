@@ -6,7 +6,7 @@ This is a simple project to showcase usage of the smart contracts in the dapp.
 - Mint NFTs from chosen images.
 
 ## Tools:
-- node (tested on `v12.18.3`), npm (`6.14.6`)
+- node (tested on `v14.16.1`), npm (`6.14.6`)
 - yarn (tested on `1.22.10`)
 - truffle `npm install -g truffle`
 - ganache `npm install -g ganache-cli`
