@@ -14,10 +14,17 @@ class App extends Component {
   }
 
   loadImages = async () => {
-    const { imageStorage } = this.state;
+    const { imageStorage } = this.state
 
-    this.setState({ storageValue: await imageStorage.getAll() });
-  };
+    this.setState({ storageValue: await imageStorage.getAll() })
+  }
+
+  addImage = async () => {
+    const { imageStorage } = this.state
+    await imageStorage.setImage()
+
+    this.setState({ storageValue: await imageStorage.getAll() })
+  }
 
   render() {
     return (
@@ -25,14 +32,10 @@ class App extends Component {
         <h1>Good to Go!</h1>
         <p>Your Truffle Box is installed and ready.</p>
         <h2>Smart Contract Example</h2>
-        <p>
-          If your contracts compiled and migrated successfully, below will show
-          a stored value of 5 (by default).
+        <p onClick={() => this.addImage()}>
+          Click to add sample image to storage
         </p>
-        <p>
-          Try changing the value stored on <strong>line 42</strong> of App.js.
-        </p>
-        {/* <div>The stored value is: {this.state.storageValue}</div> */}
+        <div>Number of stored images: {(this.state.storageValue || []).length}</div>
       </div>
     );
   }
