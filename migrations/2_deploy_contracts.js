@@ -1,7 +1,5 @@
-var ImageStorage = artifacts.require("./ImageStorage.sol");
-var VoteStorage = artifacts.require("./VoteStorage.sol");
+var ImageVoterContract = artifacts.require("./ImageVoterContract.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(ImageStorage);
-  deployer.deploy(VoteStorage)
+  deployer.deploy(ImageVoterContract);
 };
