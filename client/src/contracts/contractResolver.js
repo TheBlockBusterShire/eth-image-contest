@@ -1,6 +1,6 @@
-import ImageStorageContract from "./ImageStorage.json";
+import ImageVoterContract from "./ImageVoterContract.json";
 
-export const deployImageStorageContract = async (web3) => deployContract(web3, ImageStorageContract)
+export const deployImageVoterStorageContract = async (web3) => deployContract(web3, ImageVoterContract)
 
 const deployContract = async (web3, contract) => {
     const networkId = await web3.eth.net.getId();
