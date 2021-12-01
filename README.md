@@ -16,10 +16,21 @@ Project is based on the react box `truffle unbox react`.
 
 ## Setup
 - Install dependencies `yarn install`
-- Start local IPFS node `ipfs init`
 - Start local test-chain with ganache on 7545 `ganache-cli --port 7545`
 - Compile contracts `truffle compile`
 - Migrate contracts `truffle migrate`
+
+- IPFS
+  * Start local IPFS node `ipfs init`
+  * Start local IPFS daemon `ipfs daemon` (by default on `http://localhost:5001`)
+  * CORS:
+  ```
+    ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["*"]'
+    ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["GET", "POST"]'
+    ipfs config --json API.HTTPHeaders.Access-Control-Allow-Headers '["Authorization"]'
+    ipfs config --json API.HTTPHeaders.Access-Control-Expose-Headers '["Location"]'
+    ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials '["true"]'
+  ```
 
 ## Others
 - Unit tests `truffle test`

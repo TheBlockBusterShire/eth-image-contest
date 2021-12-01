@@ -18,11 +18,12 @@ export default class ImageStorage {
         return this.contractRaw.methods.getImages().call();
     }
 
-    async setImage () {
+    async setImage (ipfsPath, filename) {
+        console.log(ipfsPath)
         await this.contractRaw.methods.setImage(
-            this.web3.utils.fromAscii("one"),
-            "hash",
-            "title"
+            this.web3.utils.fromAscii(filename),
+            ipfsPath,
+            filename
           ).send({ from: this.accounts[0] });
     }
 }

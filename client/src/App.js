@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ImageStorage from './contracts/ImageStorage'
+import { uploadToIpfs } from './utils/ipfsUploader'
 
 import "./App.css";
 
@@ -13,15 +14,24 @@ class App extends Component {
     this.setState({ imageStorage }, this.loadImages)
   }
 
-  loadImages = async () => {
+  // ImageUploader
+  onFileChange = async (e) => {
+    const [file] = e.target.files
+
+    const ipfsPath = await uploadToIpfs(file)
+    this.addImage(ipfsPath, file.name)
+  }
+
+  addImage = async (ipfsPath, filename) => {
     const { imageStorage } = this.state
+    await imageStorage.setImage(ipfsPath, filename)
 
     this.setState({ storageValue: await imageStorage.getAll() })
   }
+  // ----------------------------
 
-  addImage = async () => {
+  loadImages = async () => {
     const { imageStorage } = this.state
-    await imageStorage.setImage()
 
     this.setState({ storageValue: await imageStorage.getAll() })
   }
@@ -32,13 +42,20 @@ class App extends Component {
         <h1>Good to Go!</h1>
         <p>Your Truffle Box is installed and ready.</p>
         <h2>Smart Contract Example</h2>
-        <p onClick={() => this.addImage()}>
-          Click to add sample image to storage
-        </p>
-        <div>Number of stored images: {(this.state.storageValue || []).length}</div>
+
+        <input multiple type="file" onChange={(e) => this.onFileChange(e)} />
+        <ImageList images={this.state.storageValue}/>
       </div>
     );
   }
+}
+
+const ImageList = ({images}) => {
+  const list = (images || []).map(it => <li>{it.name}: {it.imagehash}</li>)
+
+  return (
+    <div>{list}</div>
+  )
 }
 
 export default App;
