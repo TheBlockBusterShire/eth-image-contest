@@ -5,35 +5,33 @@ import { uploadToIpfs } from './utils/ipfsUploader'
 import "./App.css";
 
 class App extends Component {
-  state = { storageValue: null, imageStorage: null }
+  state = {
+    storageValue: null,
+    images: null
+  }
 
   componentDidMount = async () => {
     const imageStorage = new ImageStorage()
     await imageStorage.init()
 
-    this.setState({ imageStorage }, this.loadImages)
+    this.setState({ imageStorage }, this.reloadImages)
   }
 
-  // ImageUploader
-  onFileChange = async (e) => {
+  uploadImage = async (e) => {
+    const { imageStorage } = this.state
     const [file] = e.target.files
 
     const ipfsPath = await uploadToIpfs(file)
-    this.addImage(ipfsPath, file.name)
+    await imageStorage.setImage(ipfsPath, file.name)
+
+    this.reloadImages()
   }
 
-  addImage = async (ipfsPath, filename) => {
-    const { imageStorage } = this.state
-    await imageStorage.setImage(ipfsPath, filename)
-
-    this.setState({ storageValue: await imageStorage.getAll() })
-  }
-  // ----------------------------
-
-  loadImages = async () => {
+  reloadImages = async () => {
     const { imageStorage } = this.state
 
-    this.setState({ storageValue: await imageStorage.getAll() })
+    this.setState({ images: await imageStorage.getAll() })
+    console.log(this.state.images)
   }
 
   render() {
@@ -43,19 +41,17 @@ class App extends Component {
         <p>Your Truffle Box is installed and ready.</p>
         <h2>Smart Contract Example</h2>
 
-        <input multiple type="file" onChange={(e) => this.onFileChange(e)} />
-        <ImageList images={this.state.storageValue}/>
+        <input multiple type="file" onChange={(e) => this.uploadImage(e)} />
+        <ImageGallery images={this.state.images}/>
       </div>
     );
   }
 }
 
-const ImageList = ({images}) => {
-  const list = (images || []).map(it => <li>{it.name}: {it.imagehash}</li>)
+const ImageGallery = ({images}) => {
+  const list = (images || []).map(it => <li>{it.title}: {it.imagehash}</li>)
 
-  return (
-    <div>{list}</div>
-  )
+  return (<div>{list}</div>)
 }
 
 export default App;

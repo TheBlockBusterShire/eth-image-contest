@@ -2,8 +2,9 @@ import { create } from 'ipfs-http-client'
 
 const IPFS_URL = "http://localhost:5001"
 
+const client = create(IPFS_URL)
+
 export const uploadToIpfs = async (file) => {
-    const client = create(IPFS_URL)
     try {
         console.log(`IPFS: START uploading filename: ${file.name}`)
         const uploadedFile = await client.add(file)
