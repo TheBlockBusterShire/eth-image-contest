@@ -1,23 +1,40 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
 import ipfs from '../utils/ipfsHelper'
 
-const ImageGallery = ({images}) => {
-    const list = (images || []).map(it => <li>{it.title}: <Image ipfsPath={it.ipfsPath}/></li>)
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Card from 'react-bootstrap/Card'
 
-    return (<div>{list}</div>)
+const ImageGallery = ({images}) => {
+    const list = (images || []).map(it => <Image image={it} />)
+
+    return (<Container><Row>{list}</Row></Container>)
 }
 
 class Image extends Component {
-    state = { image: null }
+    state = {
+        url: null,
+        title: null
+    }
 
     componentDidMount = async () => {
-        const { ipfsPath } = this.props
+        const { image } = this.props
 
-        this.setState({ image: ipfs.getUrl(ipfsPath)} )
+        this.setState({
+            url: ipfs.getUrl(image.ipfsPath),
+            title: image.title
+        })
     }
 
     render() {
-        return (<img src={this.state.image} />)
+        return (
+            <Card style={{ width: "18rem", margin: "1rem" }}>
+                <Card.Img variant="top" src={this.state.url} />
+                <Card.Body>
+                    <Card.Title>{this.state.title}</Card.Title>
+                </Card.Body>
+            </Card>
+        )
     }
 }
   
