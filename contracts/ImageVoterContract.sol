@@ -8,7 +8,7 @@ contract ImageVoterContract {
     // ImageStorage -------------------------------------
     struct ImageMetadata {
         bytes32 id;
-        string imagehash;
+        string ipfsPath;
         string title;
         uint256 createdAt;
     }
@@ -24,12 +24,12 @@ contract ImageVoterContract {
 
     function setImage(
         bytes32 id,
-        string memory imagehash,
+        string memory ipfsPath,
         string memory title
     ) public {
         ImageMetadata memory imageMetadata = ImageMetadata(
             id,
-            imagehash,
+            ipfsPath,
             title,
             block.timestamp
         );
