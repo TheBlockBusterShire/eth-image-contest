@@ -1,4 +1,3 @@
-import getWeb3 from "../utils/getWeb3";
 import { deployImageVoterStorageContract } from "./contractResolver"
 
 export default class VoteStorage {
