@@ -7,10 +7,11 @@ contract("ImageVoterContract", accounts => {
     const idOne = web3.utils.fromAscii("one")
     const idTwo = web3.utils.fromAscii("two")
     await contract.setImage(idOne, "hash_one", "one")
+    await contract.setImage(idOne, "hash_one", "one")
     await contract.setImage(idTwo, "hash_two", "two")
 
     const imageList = await contract.getImages()
-    assert.equal(imageList.length, 2, "Stored list has not right length.");
+    assert.equal(imageList.length, 2, "Stored list has not right length without dupications.");
   })
 
   it("should store votes", async () => {

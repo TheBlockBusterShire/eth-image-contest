@@ -27,6 +27,9 @@ contract ImageVoterContract {
         string memory ipfsPath,
         string memory title
     ) public {
+        for (uint256 p = 0; p < imageIds.length; p++) {
+            if (imageIds[p] == id) return;
+        }
         ImageMetadata memory imageMetadata = ImageMetadata(
             id,
             ipfsPath,
@@ -38,9 +41,9 @@ contract ImageVoterContract {
         images[id] = imageMetadata;
     }
 
-    function getImages() public view returns(ImageMetadata [] memory) {
+    function getImages() public view returns (ImageMetadata[] memory) {
         ImageMetadata[] memory result = new ImageMetadata[](imageIds.length);
-        for (uint p = 0; p < imageIds.length; p++) {
+        for (uint256 p = 0; p < imageIds.length; p++) {
             bytes32 id = imageIds[p];
             result[p] = images[id];
         }
@@ -53,13 +56,14 @@ contract ImageVoterContract {
             "You are not allowed to remove image, only owner of smart contract can remove images."
         );
 
-        for (uint p = 0; p < imageIds.length; p++) {
+        for (uint256 p = 0; p < imageIds.length; p++) {
             if (imageIds[p] == id) {
-                imageIds[p] = imageIds[imageIds.length-1];
+                imageIds[p] = imageIds[imageIds.length - 1];
                 imageIds.pop();
             }
         }
     }
+
     // --------------------------------------------------
 
     // VoteStorage --------------------------------------
@@ -76,9 +80,9 @@ contract ImageVoterContract {
         votes[msg.sender] = imageId;
     }
 
-    function getVotes() public view returns(Vote[] memory) {
+    function getVotes() public view returns (Vote[] memory) {
         Vote[] memory result = new Vote[](voters.length);
-        for (uint p = 0; p < voters.length; p++) {
+        for (uint256 p = 0; p < voters.length; p++) {
             address voterAddress = voters[p];
             result[p] = Vote(voterAddress, votes[voterAddress]);
         }
@@ -86,16 +90,16 @@ contract ImageVoterContract {
     }
 
     function burnVote() public {
-        for (uint p = 0; p < voters.length; p++) {
+        for (uint256 p = 0; p < voters.length; p++) {
             if (voters[p] == msg.sender) {
-                voters[p] = voters[voters.length-1];
+                voters[p] = voters[voters.length - 1];
                 voters.pop();
             }
         }
     }
 
-    function userHasVoted() internal view returns(bool) {
-        for (uint p = 0; p < voters.length; p++) {
+    function userHasVoted() internal view returns (bool) {
+        for (uint256 p = 0; p < voters.length; p++) {
             if (voters[p] == msg.sender) return true;
         }
         return false;
