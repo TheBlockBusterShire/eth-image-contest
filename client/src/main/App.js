@@ -5,6 +5,7 @@ import ipfs from '../utils/ipfsHelper'
 import ImageGallery from "./ImageGallery";
 import ImageUploader from "./ImageUploader";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 import "./App.css";
 
 class App extends Component {
