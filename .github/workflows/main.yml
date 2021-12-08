@@ -29,11 +29,11 @@ jobs:
       - name: Install dependencies
         run: |
           yarn
-          yarn add truffle
-          yarn add ganache-cli
+          npm i -g truffle
+          npm i -g ganache-cli
 
       - name: Start local testchain with ganache
-        run: ganache-cli --port 7545
+        run: ganache-cli --port 7545 &
 
       # Runs a set of commands using the runners shell
       - name: Run tests
