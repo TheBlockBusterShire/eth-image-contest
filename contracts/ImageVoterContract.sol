@@ -22,6 +22,10 @@ contract ImageVoterContract {
         owner = msg.sender;
     }
 
+    function isOwner() public view returns (bool) {
+        return msg.sender == owner;
+    }
+
     function setImage(
         bytes32 id,
         string memory ipfsPath,

@@ -6,8 +6,8 @@ import Row from 'react-bootstrap/Row'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 
-const ImageGallery = ({images, addVote}) => {
-    const list = (images || []).map(it => <Image image={it} addVote={addVote}/>)
+const ImageGallery = ({images, addVote, isOwner}) => {
+    const list = (images || []).map(it => <Image image={it} addVote={addVote} isOwner/>)
 
     return (<Container><Row>{list}</Row></Container>)
 }
@@ -17,17 +17,19 @@ class Image extends Component {
         id: null,
         url: null,
         title: null,
-        votesNumber: 0
+        voteCount: 0,
+        canMint: false
     }
 
     componentDidMount = async () => {
-        const { image } = this.props
+        const { isOwner, image } = this.props
 
         this.setState({
             id: image.id,
             url: ipfs.getUrl(image.ipfsPath),
             title: image.title,
-            votesNumber: image.votesNumber
+            voteCount: image.voteCount,
+            canMint: image.isWinner && isOwner
         })
     }
 
@@ -43,8 +45,11 @@ class Image extends Component {
                 <Card.Img variant="top" src={this.state.url} />
                 <Card.Body>
                     <Card.Title>{this.state.title}</Card.Title>
-                    <Card.Text>{this.state.votesNumber}</Card.Text>
+                    <Card.Text>{this.state.voteCount}</Card.Text>
                     <Button onClick={() => this.onVoteClick()}>Vote</Button>
+                    <br/>
+                    <br/>
+                    {this.state.canMint && <Button variant="success">Mint</Button>}
                 </Card.Body>
             </Card>
         )
