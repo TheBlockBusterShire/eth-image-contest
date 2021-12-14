@@ -25,7 +25,9 @@ class App extends Component {
     const voteStorage = new VoteStorage()
     await voteStorage.init(web3)
 
-    this.setState({ imageStorage, voteStorage }, this.reloadState)
+    const isOwner = await imageStorage.isOwner()
+
+    this.setState({ imageStorage, voteStorage, isOwner }, this.reloadState)
   }
 
   storeImage = async (file) => {
@@ -41,13 +43,14 @@ class App extends Component {
     const { imageStorage, voteStorage } = this.state
 
     const rawImages = await imageStorage.getAll()
-    const votes = await voteStorage.getAll()
-
+    const votingSummary = await voteStorage.getSummary()
+    const winners = await voteStorage.getWinners()
 
     const images = rawImages.map(raw => {
       return {
         ...raw,
-        votesNumber: votes.filter(vote => vote.imageId === raw.id).length
+        voteCount: (votingSummary.find(it => it.imageId === raw.id) || {}).voteCount,
+        isWinner: winners.includes(raw.id)
       }
     })
     this.setState({ images: [] })
@@ -66,7 +69,11 @@ class App extends Component {
     return (
       <div className="App">
         <ImageUploader storeImage={this.storeImage} />
-        <ImageGallery images={this.state.images} addVote={this.addVote}/>
+        <ImageGallery
+          images={this.state.images}
+          addVote={this.addVote}
+          isOwner={this.state.isOwner}
+        />
       </div>
     );
   }

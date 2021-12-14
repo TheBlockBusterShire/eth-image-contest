@@ -12,6 +12,10 @@ export default class ImageStorage {
       }
     }
 
+    async isOwner () {
+        return this.contractRaw.methods.isOwner().call();
+    }
+
     async getAll () {
         return this.contractRaw.methods.getImages().call();
     }

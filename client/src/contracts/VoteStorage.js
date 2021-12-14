@@ -5,15 +5,18 @@ export default class VoteStorage {
         try {
             this.accounts = await web3.eth.getAccounts()
             this.contractRaw = await deployImageVoterStorageContract(web3)
-            console.log(this.contractRaw)
         } catch (error) {
             alert(`Failed to load web3, accounts, or contract. Check console for details.`,)
             console.error(error)
       }
     }
 
-    async getAll () {
-        return this.contractRaw.methods.getVotes().call()
+    async getSummary () {
+        return this.contractRaw.methods.getVotingSummary().call()
+    }
+
+    async getWinners() {
+        return this.contractRaw.methods.getWinnersImageIds().call()
     }
 
     async setVote (imageId) {
