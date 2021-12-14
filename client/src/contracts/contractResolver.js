@@ -1,4 +1,4 @@
-import ImageVoterContract from "./ImageVoterContract.json";
+import ImageVoterContract from "./build/ImageVoterContract.json";
 
 export const deployImageVoterStorageContract = async (web3) => deployContract(web3, ImageVoterContract)
 
