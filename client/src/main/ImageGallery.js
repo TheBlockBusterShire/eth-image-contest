@@ -6,8 +6,8 @@ import Row from 'react-bootstrap/Row'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 
-const ImageGallery = ({images, addVote, isOwner}) => {
-    const list = (images || []).map(it => <Image image={it} addVote={addVote} isOwner/>)
+const ImageGallery = ({images, addVote, mintNft, isOwner}) => {
+    const list = (images || []).map(it => <Image image={it} addVote={addVote} mintNft={mintNft} isOwner/>)
 
     return (<Container><Row>{list}</Row></Container>)
 }
@@ -39,6 +39,12 @@ class Image extends Component {
         this.props.addVote(id)
     }
 
+    onMintClick = async () => {
+        const { url } = this.state
+
+        this.props.mintNft(url)
+    }
+
     render() {
         return (
             <Card style={{ width: "18rem", margin: "1rem" }}>
@@ -49,7 +55,9 @@ class Image extends Component {
                     <Button onClick={() => this.onVoteClick()}>Vote</Button>
                     <br/>
                     <br/>
-                    {this.state.canMint && <Button variant="success">Mint</Button>}
+                    {this.state.canMint &&
+                    <Button onClick={() => this.onMintClick()} variant="success">Mint</Button>
+                    }
                 </Card.Body>
             </Card>
         )

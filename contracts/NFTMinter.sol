@@ -5,33 +5,23 @@ import "@openzeppelin/contracts/token/ERC1155/presets/ERC1155PresetMinterPauser.
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract NFTMinter is ERC1155PresetMinterPauser, Ownable {
-    uint256 public idCounter;
+    uint256 public counter = 0;
 
-    mapping(string => uint256) ids;
+    mapping(string => uint256) urls;
     mapping(uint256 => string) lookup;
 
-    constructor() ERC1155PresetMinterPauser("ipfs://{id}") {}
+    constructor() ERC1155PresetMinterPauser("") {}
 
-    function mint(string memory id) public onlyOwner {
-        ids[id] = idCounter;
-        lookup[idCounter] = id;
-        _mint(msg.sender, idCounter, 1, "");
-        idCounter++;
-    }
-
-    function uri(uint256 id)
-        public
-        view
-        virtual
-        override
-        returns (string memory)
-    {
-        return string(abi.encodePacked(super.uri(id), lookup[id], ""));
+    function create(string memory url) public onlyOwner {
+        urls[url] = counter;
+        lookup[counter] = url;
+        _mint(msg.sender, counter, 1, "");
+        counter++;
     }
 
     function getAll() public view returns (string[] memory) {
-        string[] memory result = new string[](idCounter);
-        for (uint256 p = 0; p <= idCounter; p++) {
+        string[] memory result = new string[](counter);
+        for (uint256 p = 0; p <= counter; p++) {
             result[p] = lookup[p];
         }
         return result;

@@ -1,6 +1,9 @@
 import ImageVoterContract from "./build/ImageVoterContract.json";
+import NFTMinterContract from "./build/NFTMinter.json";
 
 export const deployImageVoterStorageContract = async (web3) => deployContract(web3, ImageVoterContract)
+export const deployNFTMinterContractContract = async (web3) => deployContract(web3, NFTMinterContract)
+
 
 const deployContract = async (web3, contract) => {
     const networkId = await web3.eth.net.getId();
