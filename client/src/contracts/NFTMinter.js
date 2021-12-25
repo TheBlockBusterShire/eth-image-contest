@@ -6,7 +6,6 @@ export default class NFTMinter {
             this.web3 = web3
             this.accounts = await web3.eth.getAccounts()
             this.contractRaw = await deployNFTMinterContractContract(web3)
-            console.log(this.contractRaw.methods)
         } catch (error) {
             alert(`Failed to load web3, accounts, or contract. Check console for details.`,)
             console.error(error)

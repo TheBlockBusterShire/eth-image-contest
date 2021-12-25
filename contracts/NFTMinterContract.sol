@@ -4,7 +4,7 @@ pragma solidity ^0.8.10;
 import "@openzeppelin/contracts/token/ERC1155/presets/ERC1155PresetMinterPauser.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract NFTMinter is ERC1155PresetMinterPauser, Ownable {
+contract NFTMinterContract is ERC1155PresetMinterPauser, Ownable {
     uint256 public counter = 0;
 
     mapping(string => uint256) urls;
