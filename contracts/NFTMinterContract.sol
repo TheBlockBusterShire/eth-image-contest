@@ -21,7 +21,7 @@ contract NFTMinterContract is ERC1155PresetMinterPauser, Ownable {
 
     function getAll() public view returns (string[] memory) {
         string[] memory result = new string[](counter);
-        for (uint256 p = 0; p <= counter; p++) {
+        for (uint256 p = 0; p < counter; p++) {
             result[p] = lookup[p];
         }
         return result;
