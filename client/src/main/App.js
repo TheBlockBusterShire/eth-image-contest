@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ImageStorage from '../contracts/ImageStorage'
 import VoteStorage from "../contracts/VoteStorage"
+import NFTMinter from "../contracts/NFTMinter"
 import ipfs from '../utils/ipfsHelper'
 
 import getWeb3 from "../utils/getWeb3";
@@ -25,9 +26,12 @@ class App extends Component {
     const voteStorage = new VoteStorage()
     await voteStorage.init(web3)
 
+    const nftMinter = new NFTMinter()
+    await nftMinter.init(web3)
+
     const isOwner = await imageStorage.isOwner()
 
-    this.setState({ imageStorage, voteStorage, isOwner }, this.reloadState)
+    this.setState({ imageStorage, voteStorage, nftMinter, isOwner }, this.reloadState)
   }
 
   storeImage = async (file) => {
@@ -65,6 +69,13 @@ class App extends Component {
     this.reloadState()
   }
 
+  mintNft = async (url) => {
+    const { nftMinter } = this.state
+
+    await nftMinter.mint(url)
+    console.log(await nftMinter.getAll())
+  }
+
   render() {
     return (
       <div className="App">
@@ -72,6 +83,7 @@ class App extends Component {
         <ImageGallery
           images={this.state.images}
           addVote={this.addVote}
+          mintNft={this.mintNft}
           isOwner={this.state.isOwner}
         />
       </div>

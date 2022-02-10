@@ -13,11 +13,11 @@ export default class ImageStorage {
     }
 
     async isOwner () {
-        return this.contractRaw.methods.isOwner().call();
+        return this.contractRaw.methods.isOwner().call()
     }
 
     async getAll () {
-        return this.contractRaw.methods.getImages().call();
+        return this.contractRaw.methods.getImages().call()
     }
 
     async setImage (ipfsPath, filename) {
@@ -25,6 +25,6 @@ export default class ImageStorage {
             this.web3.utils.fromAscii(filename),
             ipfsPath,
             filename
-          ).send({ from: this.accounts[0] });
+          ).send({ from: this.accounts[0] })
     }
 }
